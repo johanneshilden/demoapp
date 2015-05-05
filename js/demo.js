@@ -57,7 +57,7 @@ var TaskForm = React.createClass({
             <div>
                 <div className="panel panel-default">
                     <div className="panel-body">
-                        <div className="form-group">
+                        <div className={$c('form-group', {'has-error': (false === this.state.complete)})}>
                             <label htmlFor="task-description">Description</label>
                             <textarea id="task-description" className="form-control" rows="4" onChange={this.handleChange} value={this.state.description} />
                             {descriptionError}
@@ -72,6 +72,21 @@ var TaskForm = React.createClass({
         );
     }
 });
+
+function $c(staticClassName, conditionalClassNames) {
+    var classNames = []
+    if (typeof conditionalClassNames == 'undefined') {
+        conditionalClassNames = staticClassName
+    } else {
+        classNames.push(staticClassName)
+    }
+    for (var className in conditionalClassNames) {
+        if (!!conditionalClassNames[className]) {
+            classNames.push(className)
+        }
+    }
+    return classNames.join(' ');
+}
 
 var NotificationList = React.createClass({
     explanation: function(error) {
