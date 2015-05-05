@@ -153,7 +153,14 @@ var TransactionsTable = React.createClass({
             "order": 3,
             "locked": false,
             "visible": true,
-            "displayName": "Range"
+            "displayName": "Range",
+            "customComponent": React.createClass({
+                render: function() {
+                    return (
+                        <span>{JSON.stringify(this.props.data)}</span>
+                    );
+                }
+            })
         },
         {
             "columnName": "up",

@@ -73,6 +73,38 @@ var TaskForm = React.createClass({
     }
 });
 
+var NotificationList = React.createClass({
+    explanation: function(error) {
+        switch (error._error) {
+            case 'MISSING_KEY':
+                return 'The following resource was not found: ' + error.resource + '. It may have been removed by another user.';
+            default:
+                return error._error + ': ' + error.resource;
+        }
+    },
+    dismiss: function() {
+        $('#notifications').html('');
+    },
+    render: function() {
+        var i = 1;
+        var notices = this.props.messages.map(function(item) {
+            return (
+                <div key={i++} className="alert alert-warning" role="alert">
+                    <strong>Conflict detected! </strong>{this.explanation(item)}
+                </div>
+            );
+        }.bind(this));
+        return (
+            <div>
+                {notices}
+                <p className="text-right">
+                    <a href="javascript:" onClick={this.dismiss}>Dismiss</a>
+                </p>
+            </div>
+        );
+    }
+});
+    
 var TaskList = React.createClass({
     fetchTasks: function() {
         var tasks = [],
@@ -98,9 +130,17 @@ var TaskList = React.createClass({
     syncRemote: function() {
         this.setState({loaded: false});
         api.sync([4, 5], null, function(resp, e) {
-            console.log(e);
+            if (e.length) {
+                React.render(
+                    <NotificationList messages={e} />,
+                    document.getElementById('notifications')
+                );
+            }
             this.fetchTasks();
         }.bind(this));
+    },
+    cancel: function() {
+        this.setState({loaded: true});
     },
     getInitialState: function() {
         return {data: [], loaded: true};
@@ -128,7 +168,7 @@ var TaskList = React.createClass({
         this.fetchTasks();
     },
     render: function() {
-        var tasks = this.state.data.map(function (item) {
+        var tasks = this.state.data.map(function(item) {
             var timeago = $.timeago(item.created);
             return (
                 <li key={item.key} className="list-group-item clearfix">
@@ -152,23 +192,35 @@ var TaskList = React.createClass({
                     {tasks}
                 </ul>
         }
+        var cancelBtn = '';
+        if (!this.state.loaded) {
+            cancelBtn = 
+                <p className="text-right">
+                    <a href="javascript:" onClick={this.cancel}>
+                        Cancel
+                    </a>
+                </p>
+        }
         return (
-            <Loader loaded={this.state.loaded}>
-                <div className="panel panel-default">
-                    <div className="panel-heading clearfix">
-                        <div className="btn-group pull-right">
-                            <button onClick={this.clearAll} type="button" className="btn btn-default btn-danger">
-                                <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbsp;Clear all
-                            </button>
-                            <button onClick={this.syncRemote} type="button" className="btn btn-default btn-primary">
-                                <span className="glyphicon glyphicon-cloud-download" aria-hidden="true"></span>&nbsp;Sync
-                            </button>
+            <div>
+                <Loader color="#18bc9c" loaded={this.state.loaded}>
+                    <div className="panel panel-default">
+                        <div className="panel-heading clearfix">
+                            <div className="btn-group pull-right">
+                                <button onClick={this.clearAll} type="button" className="btn btn-default btn-danger">
+                                    <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbsp;Clear all
+                                </button>
+                                <button onClick={this.syncRemote} type="button" className="btn btn-default btn-primary">
+                                    <span className="glyphicon glyphicon-cloud-download" aria-hidden="true"></span>&nbsp;Sync
+                                </button>
+                             </div>
+                            <h3 className="panel-title">My tasks</h3>
                         </div>
-                        <h3 className="panel-title">My tasks</h3>
+                        {contents}
                     </div>
-                    {contents}
-                </div>
-            </Loader>
+                </Loader>
+                {cancelBtn}
+            </div>
         );
     }
 });
