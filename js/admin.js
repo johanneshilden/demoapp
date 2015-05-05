@@ -179,7 +179,7 @@ var TransactionsTable = React.createClass({
             "customComponent": ObjectComponent
         }];
         return (
-            <Loader loaded={this.state.loaded}>
+            <Loader color="#2c3e50" loaded={this.state.loaded}>
                 <div className="panel panel-default">
                     <div className="panel-heading">
                         <button onClick={this.refresh} type="button" className="btn btn-default pull-right">
@@ -290,7 +290,7 @@ var TokensTable = React.createClass({
             })
         }];
         return (
-            <Loader loaded={this.state.loaded}>
+            <Loader color="#2c3e50" loaded={this.state.loaded}>
                 <div className="panel panel-default">
                     <div className="panel-heading text-right">
                         <button onClick={this.refresh} type="button" className="btn btn-default">
@@ -401,7 +401,7 @@ var ConsumerForm = React.createClass({
             nameErrorMsg = <span className="help-block">{this.state.errors.consumerName}</span>
         }
         return (
-            <Loader loaded={this.state.loaded}>
+            <Loader color="#2c3e50" loaded={this.state.loaded}>
                 <div className={$c('form-group', {'has-error': nameHasErrors})}>
                     <label htmlFor="name">Name</label>
                     <input type="text" ref="consumerName" className="form-control" required autofocus />
@@ -556,7 +556,7 @@ var ConsumersTable = React.createClass({
             "displayName": ""
         }];
         return (
-            <Loader loaded={this.state.loaded}>
+            <Loader color="#2c3e50" loaded={this.state.loaded}>
                 <div className="panel panel-default">
                     <div className="panel-heading">
                         <button onClick={this.refresh} type="button" className="btn btn-default pull-right">
