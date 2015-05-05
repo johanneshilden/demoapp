@@ -535,7 +535,7 @@ var ConsumersTable = React.createClass({
             "customComponent": React.createClass({
                 render: function() {
                     /* -------------------- TEMP ---------------------- */
-                    if ('fieldstaff' == this.props.rowData.name)
+                    if ('consumer_key' == this.props.rowData.name)
                         return (
                             <span></span>
                         );
