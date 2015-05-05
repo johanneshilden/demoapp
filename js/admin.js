@@ -302,8 +302,8 @@ var TokensTable = React.createClass({
 var SignInForm = React.createClass({
     onSubmit: function() {
         window.sync = new OAuthSync({
-            key: 'fieldstaff',
-            secret: 'fieldstaff', 
+            key: 'consumer_key',
+            secret: 'consumer_secret', 
             endpoint: url,
             signatureMethod: 'PLAINTEXT'
         });
