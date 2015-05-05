@@ -82,7 +82,6 @@ var TaskList = React.createClass({
         } catch(e) {
             console.log(e);
         }
-        console.log(tasks);
         _.each(tasks, function(item) {
             if (item.hasOwnProperty('href')) {
                 try {
@@ -130,7 +129,6 @@ var TaskList = React.createClass({
     },
     render: function() {
         var tasks = this.state.data.map(function (item) {
-            console.log(item);
             var timeago = $.timeago(item.created);
             return (
                 <li key={item.key} className="list-group-item clearfix">
