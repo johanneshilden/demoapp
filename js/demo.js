@@ -203,7 +203,7 @@ var TaskList = React.createClass({
         }
         return (
             <div>
-                <Loader color="#18bc9c" loaded={this.state.loaded}>
+                <Loader color="#2c3e50" loaded={this.state.loaded}>
                     <div className="panel panel-default">
                         <div className="panel-heading clearfix">
                             <div className="btn-group pull-right">
