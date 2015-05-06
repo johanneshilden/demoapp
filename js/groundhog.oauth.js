@@ -129,8 +129,6 @@ var OAuthSync = (function(){
                             error: function(e) {
 
                                 console.log(e);
-                                if (!e.responseText);
-                                    alert('Connection error.');
  
                                 if ('function' === typeof onError) {
                                     onError(e);

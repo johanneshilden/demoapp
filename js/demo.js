@@ -228,6 +228,31 @@ var TaskList = React.createClass({
     componentDidMount: function() {
         this.fetchTasks();
     },
+    emptyMsg: function() {
+        return (
+            <div className="panel-body">
+                Nothing to do at the moment.
+            </div>
+        );
+    },
+    tasks: function() {
+        return (
+            <ul className="list-group">    
+                {this.state.data.map(function(item) {
+                    var timeago = $.timeago(item.created);
+                    return (
+                        <li key={item.key} className="list-group-item clearfix">
+                            <button onClick={this.closeTask.bind(null, item.key)} type="button" className="btn btn-default btn-sm pull-right">
+                                <span className="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                &nbsp;&nbsp;Close task
+                            </button>
+                            {item.description}&nbsp;<small style={{color: '#787878'}}><br />(Created {timeago})</small>
+                        </li>
+                    );
+                }.bind(this))}
+            </ul>
+        );
+    },
     render: function() {
         return (
             <div>
@@ -244,23 +269,10 @@ var TaskList = React.createClass({
                             </div>
                             <h3 className="panel-title">My tasks</h3>
                         </div>
-                        <ul className="list-group">
-                            {this.state.data.map(function(item) {
-                                var timeago = $.timeago(item.created);
-                                return (
-                                    <li key={item.key} className="list-group-item clearfix">
-                                        <button onClick={this.closeTask.bind(null, item.key)} type="button" className="btn btn-default btn-sm pull-right">
-                                            <span className="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                                            &nbsp;&nbsp;Close task
-                                        </button>
-                                        {item.description}&nbsp;<small style={{color: '#787878'}}><br />(Created {timeago})</small>
-                                    </li>
-                                );
-                            }.bind(this))}
-                        </ul>
+                        {this.state.data.length ? this.tasks() : this.emptyMsg()}
                     </div>
                 </Loader>
-                {this.state.loaded ? '' : <button onClick={this.cancelSync} type="button" className="btn btn-default">Cancel</button>} 
+                {this.state.loaded ? '' : <button onClick={this.cancelSync} type="button" className="btn btn-default btn-sm btn-block">Cancel</button>} 
             </div>
         );
     }
