@@ -42,6 +42,10 @@ var Notifications = React.createClass({
     },
     showMsgs: function(items) {
         if (items) {
+            _.each(items, function(item) {
+                if (!item.type)
+                    item.type = 'info';
+            });
             this.setState({data: items});
         }
     },
@@ -59,7 +63,7 @@ var Notifications = React.createClass({
             <div>
                 {this.state.data.map(function(item) {
                     return (
-                        <div key={i++} className="alert alert-warning" role="alert">
+                        <div key={i++} className={'alert alert-' + item.type} role="alert">
                             <button onClick={this.closeAlert.bind(null, i - 2)} type="button" className="close"><span aria-hidden="true">&times;</span></button>
                             <strong>Conflict detected! </strong>{this.explain(item)}
                         </div>
@@ -114,7 +118,7 @@ var StatusIcons = React.createClass({
         return (
             <div className="status-icons">
                 {this.state.online ? <button data-toggle="tooltip" data-placement="bottom" title="Device is connected"><span className="glyphicon glyphicon-flash"></span></button> : ''}
-                {this.state.hasUpdates ? <button data-toggle="tooltip" data-placement="bottom" title="Updates are available remotely"><span className="glyphicon glyphicon-bell"></span></button> : ''}
+                {this.state.hasUpdates && this.state.online ? <button data-toggle="tooltip" data-placement="bottom" title="Updates are available remotely"><span className="glyphicon glyphicon-bell"></span></button> : ''}
             </div>
         );
     }
@@ -198,6 +202,9 @@ var TaskList = React.createClass({
             this.props.notificationHandler(e || []);
             this.props.statusUpdatesHandler(false);
             this.fetchTasks();
+        }.bind(this), function(e) {
+            bootbox.alert('Connection failed.');
+            this.setState({loaded: true});
         }.bind(this));
     },
     cancelSync: function() {

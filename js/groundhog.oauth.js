@@ -85,8 +85,9 @@ var OAuthSync = (function(){
 
                             console.log(e);
     
-                            if ('function' === typeof onError)
+                            if ('function' === typeof onError) {
                                 onError(e);
+                            }
                         },
                         success: onSuccess
                     });

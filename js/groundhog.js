@@ -437,7 +437,7 @@ var Endpoint = (function(){
             log = [];
             storage.insertItem('_log', log);
         };
-        this.sync = function(targets, host, onComplete) { 
+        this.sync = function(targets, host, onComplete, onError) { 
 
             var data = JSON.stringify({
                 targets   : targets,
@@ -445,7 +445,7 @@ var Endpoint = (function(){
                 commit    : log
             });
     
-            var onSuccess = function(resp) {
+            var success = function(resp) {
 
                 // --------------------------------------------------------------------
                 // Rewind local stack: Traverse the log in reverse order and run
@@ -472,13 +472,17 @@ var Endpoint = (function(){
 
                 _.each(resp.reverse, function(item) {
                     var err = route(false, item);
-                    if (err._error)
+                    if (err._error) {
+                        err.type = 'warning';
                         errors.push(err);
+                    }
                 });
                 _.each(resp.forward, function(item) {
                     var err = route(true, item);
-                    if (err._error)
+                    if (err._error) {
+                        err.type = 'warning';
                         errors.push(err);
+                    }
                 });
 
                 console.log(errors);
@@ -500,8 +504,11 @@ var Endpoint = (function(){
 
             }.bind(this);
 
-            var onError = function(e) {
+            var error = function(e) {
                 console.log(e);
+                if ('function' === typeof onError) {
+                    onError(e);
+                }
             };
 
             if (syncEngine) {
@@ -512,7 +519,7 @@ var Endpoint = (function(){
                     data    : {
                         payload: data
                     }
-                }, onSuccess, onError);
+                }, success, error);
 
             } else {
 
@@ -522,8 +529,8 @@ var Endpoint = (function(){
                     type     : 'POST',
                     url      : host,
                     data     : data,
-                    error    : onError,
-                    success  : onSuccess
+                    error    : error,
+                    success  : success
                 });
 
             }
