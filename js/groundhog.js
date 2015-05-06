@@ -216,7 +216,10 @@ var Endpoint = (function(){
                                 break;
 
                             default:
-                                return 'Not a valid method: ' + request.method;
+                                return {
+                                    _error: 'METHOD_NOT_ALLOWED',
+                                    description: 'Not a valid method: ' + request.method
+                                };
                         }
 
                         item.index = Number(index);
@@ -236,7 +239,7 @@ var Endpoint = (function(){
                     } 
 
                     // If we have a match, no need to go through remaining route patterns
-                    return;
+                    return resp;
                 }
             }
         }
@@ -469,12 +472,12 @@ var Endpoint = (function(){
 
                 _.each(resp.reverse, function(item) {
                     var err = route(false, item);
-                    if (err)
+                    if (err._error)
                         errors.push(err);
                 });
                 _.each(resp.forward, function(item) {
                     var err = route(true, item);
-                    if (err)
+                    if (err._error)
                         errors.push(err);
                 });
 

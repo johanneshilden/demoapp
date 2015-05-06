@@ -58,11 +58,11 @@ var OAuthSync = (function(){
         
         var sync = function(requestData, onSuccess, onError) {
         
-            var runner = function() {
+            var runner = function(repeated) {
         
                 if (accessToken) {
         
-                    console.log('Access token --->' + JSON.stringify(accessToken));
+                    //console.log('Access token --->' + JSON.stringify(accessToken));
            
                     $.support.cors = true;
 
@@ -75,13 +75,18 @@ var OAuthSync = (function(){
                         data: oauth.authorize(requestData, accessToken),
                         error: function(e) {
         
+                            if (e.status == 401 && 'access' != repeated) {
+                                console.log('Connection rejected. Trying to renew token.');
+                                // If access token is expired, delete it and try again (but only once)
+                                accessToken = null;
+                                runner('access');
+                                return;
+                            }
+
+                            console.log(e);
+    
                             if ('function' === typeof onError)
                                 onError(e);
-
-                            // If token is expired, delete the token and try again
-                            //accessToken = null;
-                            //runner();
-        
                         },
                         success: onSuccess
                     });
@@ -99,17 +104,18 @@ var OAuthSync = (function(){
                             },
                             error: function(e) {
 
-                                alert(e.responseText || "Connection error.");
-        
+                                if (e.status == 401 && 'request' != repeated) {
+                                    console.log('Connection rejected. Trying to renew token.');
+                                    // If request token is expired, delete it and try again (but only once)
+                                    requestToken = null;
+                                    runner('request');
+                                    return;
+                                }
+ 
                                 console.log(e);
         
                                 if ('function' === typeof onError)
                                     onError(e);
-
-                                // If request token is expired, delete the token and try again
-        
-                                //requestToken = null;
-                                //runner();
                             }
                         });
         
@@ -122,8 +128,10 @@ var OAuthSync = (function(){
                             },
                             error: function(e) {
 
-                                alert(e.responseText || "Connection error.");
-
+                                console.log(e);
+                                if (!e.responseText);
+                                    alert('Connection error.');
+ 
                                 if ('function' === typeof onError) {
                                     onError(e);
                                 }

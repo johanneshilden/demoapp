@@ -21,6 +21,17 @@
         .table th span {
             cursor: pointer;
         }
+        .status-icons button {
+            margin: 0.2em 0.2em 0 0;
+            float: right;
+            background: none !important;
+            border: none; 
+            padding: 0 !important;
+            font: inherit;
+        }
+        .status-icons button span {
+            font-size: 140%;
+        }
     </style>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -32,9 +43,13 @@
 <body>
 
     <div class="container">
-        <h4>Boris</h4>
+        <!--
+        <div id="icons"></div>
+        <h4>Alice</h4>
         <hr />
         <div id="notifications"></div>
+        <div id="main"></div>
+        -->
         <div id="main"></div>
     </div>
 
@@ -56,19 +71,24 @@
     <script src="js/jquery.timeago.js"></script>
     <script type="text/jsx" src="js/react-loader.jsx"></script>
     <script>
-        var namespace = 'demo2.local.';
+        var namespace = 'demo.b.local.';
+        var name = 'Boris';
+        var _id = 5;
+ 
+        var engine = new OAuthSync({
+            key: 'boris',
+            secret: 'borispass', 
+            endpoint: 'http://infinite-lake-1337.herokuapp.com',
+            //endpoint: 'http://localhost:3333',
+            signatureMethod: 'PLAINTEXT'
+        });
 
         var api = new Endpoint({
             namespace: namespace,
             debugMode: true,
-            syncEngine: new OAuthSync({
-                key: 'boris',
-                secret: 'borispass', 
-                endpoint: 'http://infinite-lake-1337.herokuapp.com',
-                //endpoint: 'http://localhost:3333',
-                signatureMethod: 'PLAINTEXT'
-            })
+            syncEngine: engine
         });
+
     </script>
     <script type="text/jsx" src="js/demo.js"></script>
 
