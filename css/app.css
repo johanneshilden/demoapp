@@ -1,0 +1,77 @@
+.griddle .griddle-filter {
+    margin-bottom: 1em;
+}
+.pagination > li > a:focus,
+.pagination > li > span:focus {
+    background-color: #18bc9c;
+}
+.pagination > li > a:hover,
+.pagination > li > span:hover {
+    background-color: #0f7864;
+}
+.table th span {
+    cursor: pointer;
+}
+.status-icons button {
+    margin: 0.2em 0.2em 0 0;
+    float: right;
+    background: none !important;
+    border: none; 
+    padding: 0 !important;
+    font: inherit;
+}
+.status-icons button span {
+    font-size: 140%;
+}
+.fa-spin-custom, .glyphicon-spin {
+    -webkit-animation: spin 1000ms infinite linear;
+    animation: spin 1000ms infinite linear;
+}
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+@keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+.fade-enter {
+  opacity: 0.01;
+  transition: opacity .1s ease-in;
+}
+.fade-enter.fade-enter-active {
+  opacity: 1;
+}
+.fade-leave {
+  opacity: 1;
+  transition: opacity .2s ease-in;
+}
+.fade-leave.fade-leave-active {
+  opacity: 0.01;
+}
+.growl-alert {
+    top: 3em;
+    right: 1em;
+    position: absolute;
+    min-width: 280px;
+}
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
