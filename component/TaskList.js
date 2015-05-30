@@ -38,6 +38,7 @@ var TaskList = React.createClass({
                 loaded: !GlobalStore.requestStatus
             });
         }.bind(this));
+        this.refresh();
     },
     renderButtons: function() {
         return (
