@@ -3,9 +3,23 @@
 <head>
     <title>Demo app</title>
     <link href="css/reset.css" rel="stylesheet">
+    <style type="text/css">
+        html, body {
+            height: 100%;
+        }
+        iframe {
+            position: fixed;
+            border: none;
+            top: 0; right: 0;
+            bottom: 0; left: 0;
+            width: 50%;
+            height: 100%;
+            border-left: 2px solid #ddd; 
+        }
+    </style>
 </head>
 <body>
-    <iframe style="width:50%; float:left; display:block; height:900px;" src="left.html"></iframe>
-    <iframe style="width:50%; float:left; display:block; height:900px;" src="right.html"></iframe>
+    <iframe src="left.html"></iframe>
+    <iframe style="left:50%;" src="right.html"></iframe>
 </body>
 </html>
