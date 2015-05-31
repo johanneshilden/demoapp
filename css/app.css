@@ -75,3 +75,7 @@
     -ms-user-select: none;
     user-select: none;
 }
+.loader {
+    position: relative !important;
+    top: 4em !important;
+}
