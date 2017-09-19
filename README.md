@@ -2,4 +2,4 @@
 
 Groundfork demo
 
-http://johanneshilden.github.io/demoapp/
+http://laserpants.github.io/demoapp/
